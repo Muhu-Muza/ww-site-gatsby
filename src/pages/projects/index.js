@@ -2,8 +2,9 @@ import React from 'react'
 import Layout from '../../components/Layout'
 import * as styles from '../../styles/projects.module.css'
 import { Link, graphql } from 'gatsby'
+import { GatsbyImage } from "gatsby-plugin-image"
 
-const Projects = ({ data }) => {
+export default function Projects ({ data }) {
   console.log(data)
   const projects = data.projects.nodes
   const contact = data.contact.siteMetadata.contact
@@ -17,6 +18,7 @@ const Projects = ({ data }) => {
           {projects.map(project => (
             <Link to={"/projects/" + project.frontmatter.slug} key={project.id}>
               <div>
+                <GatsbyImage image={project.frontmatter.thumb.childImageSharp.gatsbyImageData} />
                 <h3>{ project.frontmatter.title }</h3>
                 <p>{ project.frontmatter.stack }</p>
               </div>
@@ -28,26 +30,48 @@ const Projects = ({ data }) => {
     </Layout>
   );
 }
- 
-export default Projects
 
 // export page query
 export const query = graphql`
-query ProjectsPage{
-  projects: allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
-    nodes {
-      frontmatter {
-        slug
-        title
-        stack
+  query ProjectsPage {
+    projects: allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+      nodes {
+        frontmatter {
+          slug
+          title
+          stack
+          thumb {
+            childImageSharp {
+              gatsbyImageData
+            }
+          }
+        }
+        id
       }
-      id
+    }
+    contact: site {
+      siteMetadata {
+        contact
+      }
     }
   }
-  contact: site {
-    siteMetadata {
-      contact
-    }
-  }
-}
-`
+`;
+
+// query ProjectsPage{
+//   projects: allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+//     nodes {
+//       frontmatter {
+//         slug
+//         title
+//         stack
+//       }
+//       id
+//     }
+//   }
+//   contact: site {
+//     siteMetadata {
+//       contact
+//     }
+//   }
+// }
+// `
