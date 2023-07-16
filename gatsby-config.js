@@ -8,10 +8,29 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
-  plugins: [],
+  plugins: [
+    'gatsby-transformer-remark',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `projects`,
+        path: `${__dirname}/src/projects/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images/`,
+      },
+    },
+  ],
   siteMetadata: {
     title: 'Web Warrior',
     description: 'web dev portfolio',
-    copyright: 'Copyright @Muhumuza Ivan 2023'
+    copyright: 'Copyright @Muhumuza Ivan 2023',
+    contact: 'muhumuzaivan256@gmail.com'
   },
 }
